@@ -2,13 +2,15 @@ import React from 'react'
 import { Card, Col, Button } from 'antd';
 
 
-
-
-
 export default function FoodBox(props) {
+
+  const totalCalories = () => {
+    const totalCalories = props.food.calories * props.food.servings
+    return totalCalories
+  }
     return (
     <>  
-      <Col>
+      <Col xs={20} sm={16} md={12} lg={8} xl={4}>
         <Card
           title={props.food.name}
           style={{ width: 230, height: 300, margin: 10 }}
@@ -17,9 +19,9 @@ export default function FoodBox(props) {
           <p>Calories: {props.food.calories}</p>
           <p>Servings: {props.food.servings}</p>
           <p>
-            <b>Total Calories: {props.food.calories} </b> kcal
+            <b>Total Calories: {totalCalories()} </b> kcal
           </p>
-          <Button type="primary"> Delete </Button>
+          <Button type="primary" onClick={() => { props.deleteFood(props.food.name)}}> Delete </Button>
         </Card>
       </Col>
     </>  

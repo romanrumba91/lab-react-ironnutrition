@@ -1,12 +1,10 @@
-import React from 'react'
-import { nanoid } from "nanoid"
-import { useState } from 'react'
-// import foods from './foods.json';
-// import FoodBox from './components/FoodBox';
+import React, { useState } from 'react'
+import { Divider, Input } from 'antd';
 
 
 export default function AddFoodForm(props) {
 
+    
     const [newFood, setNewFood] = useState({
         name:'',
         image:'',
@@ -19,7 +17,6 @@ export default function AddFoodForm(props) {
       const handleChange = (event) => {
             setNewFood({
                 ...newFood, // spread operator ES6+ - Object Assign
-                id: nanoid(),
                  [event.target.name]: event.target.value
             })
         }
@@ -51,40 +48,48 @@ export default function AddFoodForm(props) {
             setError("")
     
         }
+
+
+
   return (
   
     <>
     <form onSubmit={(evt) =>{handleSubmit(evt)}}>
 
+    <Divider>Add Food Entry</Divider>
+
       <label>Name</label>
-      <input 
+      <Input 
         name="name"
+        type="text"
         value={newFood.name}
         onChange={ evt => { handleChange(evt) }}
       />
       <label>Image</label>
-      <input 
+      <Input 
         name="image"
+        type="text"
         value={newFood.image}
         onChange={ evt => { handleChange(evt) }}
       />
       <label>Calories</label>
-      <input 
+      <Input
         name="calories"
+        min={1} max={10000}
         value={newFood.calories}
         onChange={ evt => { handleChange(evt) }}
       />
       <label>Serving</label>
-      <input 
+      <Input
         name="servings"
+        min={1} max={10000}
         value={newFood.servings}
         onChange={ evt => { handleChange(evt) }}
       />
       <button type="submit">Crear platillo</button>
 
-      <p>{ error }</p>
-
     </form>
+
 
 
       </>

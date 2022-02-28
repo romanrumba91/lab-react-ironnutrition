@@ -3,16 +3,53 @@ import FoodBox from './components/FoodBox';
 import AddFoodForm from './components/AddFoodForm';
 import foods from './foods.json';
 import { useState } from 'react';
+import Search from './components/Search';
+import { Divider,Row } from 'antd';
 
 
 
 function App() {
 
-  const [foodList, setFoodList]= useState(foods)
-  const add = (newFood) => {
-    const prueba = [...foodList,newFood]
+  const [foodsA, setFoodList]= useState(foods)
+  const [foodsBackup, setFoodListBackup]= useState(foods)
+  const add = newFood => {
+    const addFood = [newFood, ...foodsA]
+    const updateFood = [newFood,...foodsBackup]
+  setFoodList(addFood)
+  setFoodListBackup(updateFood)
 
-  setFoodList(prueba)
+  }
+
+  const filterFoodsList = str => {
+
+    let filteredFoods;
+
+    if (str === '') {
+      filteredFoods = foodsBackup;
+    } else {
+      filteredFoods = foodsBackup.filter(foodsBackup => {
+
+          return foodsBackup.name[0].toLowerCase() === str.toLowerCase();
+
+
+      })
+    }
+    
+    setFoodList(filteredFoods);
+
+  }
+
+  const deleteFood = name => {
+
+    const filteredFoods = foodsBackup.filter( food => {
+			return food.name !== name
+		})
+
+    setFoodListBackup(filteredFoods)
+  setFoodList(filteredFoods)
+
+  return
+
   }
 
   return (
@@ -45,27 +82,34 @@ function App() {
       })
     }  */}
 
+
+
     <AddFoodForm add={add}/>
+    <Search filterFoodsList={filterFoodsList} />
 
-    <h1>Listado</h1>
+    <Divider>List</Divider>
+    
+    <Row>
 
-        {
+    {
             
-        foodList.map((arr,index)=>{
-        return (
-            <div key={index}>
-            <FoodBox food={arr} />
-            </div>
+            foodsA.map((food,index)=>{
+            return (
+                
+                <FoodBox food={food}  key={index} deleteFood={deleteFood} />
+                
+    
+            )
+      
+            })
+    
+    
+          }
 
-        )
-  
-})
+    </Row>
 
 
-
-}
-
-    </> 
+  </>
   );
   
 }
